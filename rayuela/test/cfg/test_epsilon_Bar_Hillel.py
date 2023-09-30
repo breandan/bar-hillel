@@ -5,30 +5,26 @@ from rayuela.fsa.fsa import FSA
 from rayuela.fsa.state import State
 from rayuela.fsa.transformer import Transformer as FSATransformer
 
-from rayuela.cfg.nonterminal import NT, S
 from rayuela.cfg.cfg import CFG
-from rayuela.cfg.misc import * 
-from rayuela.base.misc import _random_weight as rw
 
 
 R=Real
 
-a=Sym("a")
-S=NT("S")
+cfg=CFG(R, """
+S -> S S
+S -> a
+S -> ε
+""")
 
-cfg=CFG(R)
-cfg.add(rw(R), S, S , S )
-cfg.add(rw(R), S , a)
-cfg.add(rw(R), S , ε)
-
-fsa=FSA(R)
-fsa.add_arc(State(0), ε ,State(1), w=rw(R))
-fsa.add_arc(State(1), a ,State(2), w=rw(R))
-fsa.add_arc(State(2), ε ,State(3), w=rw(R))
-fsa.add_arc(State(2), ε ,State(2), w=R(0.3))
-fsa.add_arc(State(4), a ,State(1), w=rw(R))
-fsa.add_arc(State(1), a ,State(1), w=R(0.4))
-fsa.add_arc(State(1), ε ,State(1), w=R(0.4))
+fsa = FSA(R, """
+0 -[ε]-> 1
+1 -[a]-> 2
+2 -[ε]-> 3
+2 -[ε]-> 2 0.3
+4 -[a]-> 1
+1 -[a]-> 1 0.4
+1 -[ε]-> 1 0.4
+""")
 
 fsa.set_I(State(0), w=R(10))
 fsa.add_F(State(3), w=R(10))

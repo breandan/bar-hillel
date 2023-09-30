@@ -13,10 +13,11 @@ from rayuela.cfg.exceptions import InvalidProduction
 from rayuela.cfg.nonterminal import NT, S, Triplet, Delta , Other
 from rayuela.cfg.production import Production
 from rayuela.cfg.treesum import Treesum
+from rayuela.base.misc import _random_weight as rw
 
 class CFG:
 
-	def __init__(self, R=Boolean):
+	def __init__(self, R=Boolean, s: str = ''):
 
 		# A weighted context-free grammar is a 5-tuple <R, Σ, V, P, S> where
 		# • R is a semiring;
@@ -42,6 +43,29 @@ class CFG:
 
 		# unary FSA
 		self.unary_fsa = None
+
+		if s != '':
+			self.parse(s)
+
+	def parse(self, s: str):
+		lines = s.splitlines()
+
+		productions = []
+		nts = set()
+
+		# Lines look like a -[0.3]-> b c d ... or a -> b c d
+		for line in lines:
+			if line.strip() == '':
+				continue
+
+			p = line.split(' ')
+			productions.append(p)
+			nts.add(p[0])
+
+		for p in productions:
+			w = rw(self.R) if '[' not in p[1] else self.R(float(p[1].split('[')[1].split(']')[0]))
+			nt, body = NT(p[0]), [NT(x) if x in nts else Sym(x) for x in p[2:]]
+			self.add(w, nt, *body)
 
 	@property
 	def terminal(self):

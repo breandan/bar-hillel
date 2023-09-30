@@ -14,9 +14,11 @@ from rayuela.fsa.pathsum import Pathsum, Strategy
 
 from rayuela.cfg.nonterminal import S
 
+from rayuela.base.misc import _random_weight as rw
+
 
 class FSA:
-    def __init__(self, R=Boolean):
+    def __init__(self, R=Boolean, s: str = ''):
 
         # DEFINITION
         # A weighted finite-state automaton is a 5-tuple <R, Σ, Q, δ, λ, ρ> where
@@ -52,6 +54,23 @@ class FSA:
 
         # final weight function
         self.ρ = R.chart()
+
+        if s != '':
+            self.parse(s)
+
+    def parse(self, s: str):
+        lines = s.splitlines()
+
+        # Lines look like a -[w]-> b
+        for line in lines:
+            if line.strip() == "":
+                continue
+            params = line.strip().split(" ")
+            a, l, b, w = params[0], params[1], params[2], params[3] if len(params) > 3 else None
+            a, b = State(int(a)), State(int(b))
+            l = Sym(l.split("[")[1].split("]")[0])
+
+            self.add_arc(a, l, b, self.R(float(w)) if w is not None else rw(self.R))
 
     def add_state(self, q):
         self.Q.add(q)
