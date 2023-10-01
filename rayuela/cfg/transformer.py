@@ -6,9 +6,9 @@ from rayuela.base.semiring import Semiring
 
 from rayuela.base.symbol import Sym, ε, φ, dummy
 from rayuela.base.partitions import PartitionRefinement
-from rayuela.fsa.fsa import FSA
-from rayuela.fsa.state import State, MinimizeState, PowerState
-from rayuela.fsa.pathsum import Pathsum
+from rayuela.cfg.fsa import FSA
+from rayuela.cfg.state import State, MinimizeState, PowerState
+from rayuela.cfg.pathsum import Pathsum
 
 
 

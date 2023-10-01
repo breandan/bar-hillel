@@ -9,7 +9,7 @@ from numpy import linalg as LA
 from rayuela.base.datastructures import PriorityQueue
 from rayuela.base.semiring import NullableSemiring, Semiring, nullable_semiring_builder
 from rayuela.base.symbol import φ, Sym
-from rayuela.fsa.state import State
+from rayuela.cfg.state import State
 
 
 class Strategy:
@@ -374,7 +374,7 @@ class Pathsum:
         return self.allpairs_bwd(self.lehmann())
 
     def decomposed_lehmann_pathsum(self):
-        from rayuela.fsa.scc import SCC
+        from rayuela.cfg.scc import SCC
 
         sccs = SCC(self.fsa)
 
@@ -427,7 +427,7 @@ class Pathsum:
         return frozendict(𝜷)
 
     def johnson(self):
-        from rayuela.fsa.transformer import Transformer
+        from rayuela.cfg.transformer import Transformer
 
         𝜷 = self.fsa.backward(Strategy.BELLMANFORD)
         pfsa = self.fsa.push()

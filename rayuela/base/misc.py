@@ -35,8 +35,8 @@ def symify(string):
 
 def straight(string, R):
     from rayuela.base.symbol import Sym
-    from rayuela.fsa.fsa import FSA
-    from rayuela.fsa.state import State
+    from rayuela.cfg.fsa import FSA
+    from rayuela.cfg.state import State
 
     fsa = FSA(R=R)
     for i, x in enumerate(list(string)):
@@ -105,7 +105,7 @@ def epsilon_filter(a1, a2, q3):
     """
     Filter for composition with epsilon transitions
     """
-    from rayuela.fsa.state import State
+    from rayuela.cfg.state import State
     from rayuela.base.symbol import ε_1, ε_2
 
     if a1 == a2 and a1 not in [ε_1, ε_2]:
@@ -121,8 +121,8 @@ def epsilon_filter(a1, a2, q3):
 
 
 def is_pathsum_positive(fsa):
-    from rayuela.fsa.fsa import FSA
-    from rayuela.fsa.fst import FST
+    from rayuela.cfg.fsa import FSA
+    from rayuela.cfg.fst import FST
 
     assert isinstance(fsa, FSA) or isinstance(fsa, FST)
 
@@ -134,8 +134,8 @@ def filter_negative_pathsums(list_of_fsas):
 
 
 def compare_fsas(original_fsa, student_fsa) -> bool:
-    from rayuela.fsa.fsa import FSA
-    from rayuela.fsa.fst import FST
+    from rayuela.cfg.fsa import FSA
+    from rayuela.cfg.fst import FST
 
     assert isinstance(original_fsa, FSA) or isinstance(original_fsa, FST)
     assert isinstance(student_fsa, FSA) or isinstance(student_fsa, FST)

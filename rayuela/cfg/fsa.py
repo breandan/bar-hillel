@@ -9,8 +9,8 @@ from rayuela.base.semiring import Boolean, Semiring, String, ProductSemiring
 from rayuela.base.misc import epsilon_filter
 from rayuela.base.symbol import Sym, ε, ε_1, ε_2, φ
 
-from rayuela.fsa.state import State, PairState
-from rayuela.fsa.pathsum import Pathsum, Strategy
+from rayuela.cfg.state import State, PairState
+from rayuela.cfg.pathsum import Pathsum, Strategy
 
 from rayuela.cfg.nonterminal import S
 
@@ -258,7 +258,7 @@ class FSA:
 
 
     def epsremove(self):
-        from rayuela.fsa.transformer import Transformer
+        from rayuela.cfg.transformer import Transformer
 
         return Transformer.epsremoval(self)
 
@@ -453,7 +453,7 @@ class FSA:
         return self.finish(rev=rev, acyclic_check=True)
 
     def trim(self):
-        from rayuela.fsa.transformer import Transformer
+        from rayuela.cfg.transformer import Transformer
 
         return Transformer.trim(self)
 
@@ -521,7 +521,7 @@ class FSA:
 
     def equivalent(self, fsa):
         """Tests equivalence."""
-        from rayuela.fsa.transformer import Transformer
+        from rayuela.cfg.transformer import Transformer
 
         if self.R is not fsa.R:
             print("Not equivalent due to different semiring")

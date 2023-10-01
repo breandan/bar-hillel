@@ -6,8 +6,8 @@ from rayuela.base.semiring import Semiring, Boolean
 from rayuela.base.symbol import Sym, ε
 from rayuela.base.misc import straight
 
-from rayuela.fsa.fsa import FSA
-from rayuela.fsa.state import State
+from rayuela.cfg.fsa import FSA
+from rayuela.cfg.state import State
 
 from rayuela.cfg.exceptions import InvalidProduction
 from rayuela.cfg.nonterminal import NT, S, Triplet, Delta , Other
@@ -204,10 +204,10 @@ class CFG:
 		return ncfg
 
 	def accessible(self):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		from rayuela.cfg.treesum import Treesum
 
-		boo = Transformer().booleanize(self)
+		boo = Transformer()#.booleanize(self)
 
 		A = set([])
 		for item, v in Treesum(boo).backwardchain().items():
@@ -217,10 +217,10 @@ class CFG:
 		return A
 
 	def coaccessible(self):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		from rayuela.cfg.treesum import Treesum
 
-		boo = Transformer().booleanize(self)
+		boo = Transformer()#.booleanize(self)
 		C = set([])
 
 		for item, v in Treesum(boo).forwardchain().items():
@@ -234,7 +234,7 @@ class CFG:
 		return treesum.sum()
 
 	def accept(self, s):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		s = straight(s, R=Boolean)
 		ncfg = Transformer().booleanize(self)
 		return ncfg.intersect_fsa(s).treesum()
@@ -246,19 +246,19 @@ class CFG:
 		return self._cotrim()
 
 	def cnf(self):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		return Transformer().cnf(self)
 
 	def elim(self, p):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		return Transformer().elim(self, p)
 
 	def unfold(self, p, i):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		return Transformer().unfold2(self, p, i)
 
 	def removenullary(self):
-		from rayuela.cfg._transformer import Transformer
+		from rayuela.cfg.transformer import Transformer
 		return Transformer().nullaryremove(self)
 
 	def _trim(self):
@@ -505,6 +505,6 @@ class CFG:
 
 
 	def __str__(self):
-		return "\n".join(f"{p}\t{w}" for (p, w) in sorted(self.P, key=lambda x: (len(str(x[0].head)), str(x[0].head), len(str(x[0])))))
+		return "\n".join(f"{p}" for (p, w) in sorted(self.P, key=lambda x: (len(str(x[0].head)), str(x[0].head), len(str(x[0])))))
 		#return "\n".join(f"{p}" for (p, w) in sorted(self.P, key=lambda x: (len(str(x[0].head)), str(x[0].head), len(str(x[0])))))
 

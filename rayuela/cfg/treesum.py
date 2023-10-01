@@ -44,7 +44,7 @@ class Treesum:
 
 	def _bottom_up_step(self, V):
 
-		from rayuela.fsa.state import State
+		from rayuela.cfg.state import State
 		R = self.cfg.R
 		zero, one = R.zero, R.one
 
