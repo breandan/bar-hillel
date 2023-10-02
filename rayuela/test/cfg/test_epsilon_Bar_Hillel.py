@@ -21,9 +21,8 @@ L -> O N
 """)
 
 fsa = FSA(R, """
-1 -[a]-> 2
-2 -[+]-> 3
-2 -[a]-> 2
+1 -[a]-> 1
+1 -[+]-> 3
 3 -[b]-> 4
 4 -[+]-> 1
 4 -[b]-> 4
@@ -45,7 +44,7 @@ ncfg=cfg.intersect_fsa(fsa_e)
 
 print(ncfg.treesum())
 print(ncfg.size)
-ncfg=cfg.intersect_fsa_ε(fsa)
+# ncfg=cfg.intersect_fsa_ε(fsa)
 # print(ncfg.parse("a"))
 print(ncfg)
 print(ncfg.treesum())
